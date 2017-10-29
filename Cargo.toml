@@ -1,0 +1,7 @@
+[package]
+name = "block_game"
+version = "0.1.0"
+authors = ["Lucas Reynolds <lreynolds18@gmail.com>"]
+
+[dependencies]
+ggez = { version = "0.3", features = ["cargo-resource-root"] }
