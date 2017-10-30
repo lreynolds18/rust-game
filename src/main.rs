@@ -31,17 +31,17 @@ impl event::EventHandler for Scene {
     }
 
     fn key_down_event(&mut self, keycode: Keycode, keymod: Mod, repeat: bool) {
-        println!("Key pressed: {:?}, modifier {:?}, repeat: {}",
-                 keycode,
-                 keymod,
-                 repeat);
+        // println!("Key pressed: {:?}, modifier {:?}, repeat: {}",
+        //          keycode,
+        //          keymod,
+        //          repeat);
 
         // interestinly event handler can't handle two keys being pressed at same time
         match keycode {
-            Keycode::Right => self.x += 10.0,
-            Keycode::Left  => self.x -= 10.0,
-            Keycode::Up    => self.y -= 10.0,
-            Keycode::Down  => self.y += 10.0,
+            Keycode::D | Keycode::Right => self.x += 10.0,
+            Keycode::A | Keycode::Left  => self.x -= 10.0,
+            Keycode::W | Keycode::Up    => self.y -= 10.0,
+            Keycode::S | Keycode::Down  => self.y += 10.0,
             _ => (),
         };
     }
@@ -69,7 +69,7 @@ impl event::EventHandler for Scene {
 }
         
 fn main() {
-    // not sure about these
+    // not sure about these declerations
     let height = 720;
     let width = 1280;
 
