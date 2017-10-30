@@ -2,6 +2,7 @@ extern crate ggez;
 
 use std::time::Duration;
 // use std::thread;
+use ggez::event::*;
 use ggez::{Context, conf, graphics, event, GameResult};
 
 struct Scene {
@@ -18,24 +19,43 @@ impl Scene {
             frames: 0,
             w_height: height,
             w_width: width,
-            x: 0.0,
-            y: 0.0,
+            x: width / 2.0 - 50.0,
+            y: height / 2.0 + 50.0,
         })
     }
 }
 
 impl event::EventHandler for Scene {
     fn update(&mut self, ctx: &mut Context, _dt: Duration) -> GameResult<()> {
-
         Ok(())
+    }
+
+    fn key_down_event(&mut self, keycode: Keycode, keymod: Mod, repeat: bool) {
+        println!("Key pressed: {:?}, modifier {:?}, repeat: {}",
+                 keycode,
+                 keymod,
+                 repeat);
+
+        // interestinly event handler can't handle two keys being pressed at same time
+        match keycode {
+            Keycode::Right => self.x += 10.0,
+            Keycode::Left  => self.x -= 10.0,
+            Keycode::Up    => self.y -= 10.0,
+            Keycode::Down  => self.y += 10.0,
+            _ => (),
+        };
     }
 
     fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
         graphics::clear(ctx);
 
         let bgrect = graphics::Rect::new(0.0, 0.0, self.w_width * 2.0, self.w_height * 2.0);
-        graphics::set_color(ctx, graphics::Color::new(1.0, 1.0, 1.0, 1.0))?;
-        graphics::rectangle(ctx, graphics::DrawMode::Fill, bgrect);
+        graphics::set_color(ctx, graphics::Color::new(0.0, 0.0, 0.0, 1.0))?;
+        graphics::rectangle(ctx, graphics::DrawMode::Fill, bgrect)?;
+
+        let smrect = graphics::Rect::new(self.x, self.y, 50.0, 50.0);
+        graphics::set_color(ctx, graphics::Color::new(0.098, 0.098, 0.439, 1.0))?;
+        graphics::rectangle(ctx, graphics::DrawMode::Fill, smrect)?;
 
         graphics::present(ctx);
 
@@ -49,6 +69,7 @@ impl event::EventHandler for Scene {
 }
         
 fn main() {
+    // not sure about these
     let height = 720;
     let width = 1280;
 
